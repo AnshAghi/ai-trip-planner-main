@@ -3,10 +3,13 @@ from utils.place_info_search import GooglePlaceSearchTool, TavilyPlaceSearchTool
 from typing import List
 from langchain.tools import tool
 from dotenv import load_dotenv
+import pathlib
 
 class PlaceSearchTool:
     def __init__(self):
-        load_dotenv()
+        # Load from root .env file
+        root_dir = pathlib.Path(__file__).parent.parent
+        load_dotenv(root_dir / ".env")
         self.google_api_key = os.environ.get("GPLACES_API_KEY")
         self.google_places_search = GooglePlaceSearchTool(self.google_api_key)
         self.tavily_search = TavilyPlaceSearchTool()

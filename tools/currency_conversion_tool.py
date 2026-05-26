@@ -3,10 +3,13 @@ from utils.currency_converter import CurrencyConverter
 from typing import List
 from langchain.tools import tool
 from dotenv import load_dotenv
+import pathlib
 
 class CurrencyConverterTool:
     def __init__(self):
-        load_dotenv()
+        # Load from root .env file
+        root_dir = pathlib.Path(__file__).parent.parent
+        load_dotenv(root_dir / ".env")
         self.api_key = os.environ.get("EXCHANGE_RATE_API_KEY")
         self.currency_service = CurrencyConverter(self.api_key)
         self.currency_converter_tool_list = self._setup_tools()

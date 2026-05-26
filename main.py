@@ -6,9 +6,14 @@ from starlette.responses import JSONResponse
 from fastapi.responses import StreamingResponse
 import json
 import traceback
+import os
+import pathlib
 from dotenv import load_dotenv
 from pydantic import BaseModel
-load_dotenv()
+
+# Load root .env explicitly and override any existing values
+root_dir = pathlib.Path(__file__).resolve().parent
+load_dotenv(root_dir / ".env", override=True)
 
 app = FastAPI()
 
@@ -31,7 +36,8 @@ class QueryRequest(BaseModel):
 async def query_travel_agent(query: QueryRequest):
     async def event_generator():
         try:
-            graph = GraphBuilder(model_provider="gemini")
+            model_provider = os.getenv("MAIN_NODE_AGENT_MODEL", "groq")
+            graph = GraphBuilder(model_provider=model_provider)
             react_app = graph()
             messages = {"messages": [query.question]}
             

@@ -3,10 +3,13 @@ from utils.weather_info import WeatherForecastTool
 from langchain.tools import tool
 from typing import List
 from dotenv import load_dotenv
+import pathlib
 
 class WeatherInfoTool:
     def __init__(self):
-        load_dotenv()
+        # Load from root .env file
+        root_dir = pathlib.Path(__file__).parent.parent
+        load_dotenv(root_dir / ".env")
         self.api_key = os.environ.get("OPENWEATHERMAP_API_KEY")
         self.weather_service = WeatherForecastTool(self.api_key)
         self.weather_tool_list = self._setup_tools()

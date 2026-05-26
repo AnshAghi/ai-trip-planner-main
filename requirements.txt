@@ -16,4 +16,3 @@ langgraph
 langchain-google-community[places]
 langchain-google-genai
 
--e .
