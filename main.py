@@ -19,6 +19,11 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+@app.get("/")
+async def health_check():
+    return {"status": "ok", "message": "AI Trip Planner Backend is running"}
+
 class QueryRequest(BaseModel):
     question: str
 
